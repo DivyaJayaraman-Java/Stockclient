@@ -1,0 +1,22 @@
+.welcome-container {
+    background: linear-gradient(135deg, #e0f7e9, #ccf5d6); /* Mild green gradient */
+    padding: 40px;
+    color: #2e7d32;
+  }
+  
+  .logo-img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+  }
+  
+  .animated-btn {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .animated-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 128, 0, 0.3);
+  }
+  

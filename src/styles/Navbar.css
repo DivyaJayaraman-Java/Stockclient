@@ -1,0 +1,17 @@
+.nav-link:hover {
+    color: #d4f7d4 !important; /* lighter green on hover */
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+  }
+  .nav-link {
+    transition: background-color 0.2s ease, color 0.2s ease;
+    border-radius: 4px;
+    padding: 6px 10px;
+  }
+  
+  .nav-link:hover {
+    background-color: #b7dfc7; /* slightly darker green on hover */
+    color: #000 !important;     /* ensure text is readable */
+    text-decoration: none;
+  }
+  
