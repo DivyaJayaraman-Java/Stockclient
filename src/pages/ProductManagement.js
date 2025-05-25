@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../api/index'; // import centralized axios instance
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ProductManagement = () => {
@@ -19,7 +19,7 @@ const ProductManagement = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/products');
+      const res = await API.get('/api/products');
       setProducts(res.data);
     } catch (err) {
       console.error('Fetch Error:', err);
@@ -38,9 +38,9 @@ const ProductManagement = () => {
     e.preventDefault();
     try {
       if (editingId) {
-        await axios.put(`http://localhost:5000/api/products/${editingId}`, formData);
+        await API.put(`/api/products/${editingId}`, formData);
       } else {
-        await axios.post('http://localhost:5000/api/products', formData);
+        await API.post('/api/products', formData);
       }
       setFormData({ name: '', category: '', price: '', stock_quantity: '', items_sold: '' });
       setEditingId(null);
@@ -52,14 +52,14 @@ const ProductManagement = () => {
 
   const handleEdit = (product) => {
     setFormData(product);
-    setEditingId(product.id);
+    setEditingId(product._id); // MongoDB uses _id
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/products/${id}`);
+        await API.delete(`/api/products/${id}`);
         fetchProducts();
       } catch (err) {
         console.error('Delete Error:', err);
@@ -74,7 +74,6 @@ const ProductManagement = () => {
         <p className="text-muted" style={{ fontSize: '0.85rem' }}>Add, edit, and delete your products easily.</p>
       </div>
 
-      {/* Reduced-size Add/Edit Form */}
       <div className="card shadow-sm mb-4" style={{ fontSize: '0.85rem' }}>
         <div className="card-body p-3">
           <h5 className="mb-3" style={{ fontSize: '1rem' }}>{editingId ? '✏️ Edit Product' : '➕ Add New Product'}</h5>
@@ -108,7 +107,6 @@ const ProductManagement = () => {
         </div>
       </div>
 
-      {/* Reduced-size Product List */}
       <div className="card shadow-sm" style={{ fontSize: '0.8rem' }}>
         <div className="card-body p-3">
           <h5 className="mb-3" style={{ fontSize: '1rem' }}>📋 Product List</h5>
@@ -131,7 +129,7 @@ const ProductManagement = () => {
                   </tr>
                 ) : (
                   products.map(product => (
-                    <tr key={product.id}>
+                    <tr key={product._id}>
                       <td>{product.name}</td>
                       <td>{product.category}</td>
                       <td>₹{product.price}</td>
@@ -140,7 +138,7 @@ const ProductManagement = () => {
                       <td>
                         <div className="d-flex justify-content-center gap-1">
                           <button className="btn btn-sm btn-outline-primary" onClick={() => handleEdit(product)}>Edit</button>
-                          <button className="btn btn-sm btn-outline-danger" onClick={() => handleDelete(product.id)}>Delete</button>
+                          <button className="btn btn-sm btn-outline-danger" onClick={() => handleDelete(product._id)}>Delete</button>
                         </div>
                       </td>
                     </tr>
